@@ -90,7 +90,12 @@ public class MainController {
 	// 채팅방에 입장 퇴장 메세지 보내기
 	@MessageMapping("/socket/notification/{roomNumber}")
 	@SendTo("/topic/notification/{roomNumber}")
-	public Map<String, String> notification(@DestinationVariable String roomNumber, Map<String, String> chatingRoom) {
-		return chatingRoom;
+	public LinkedList<String> notification(@DestinationVariable String roomNumber) {
+		ChatingRoom room = ChatingRoom.builder().roomNumber(roomNumber).build(); 
+		int index = chatingRoomList.indexOf(room);
+		
+		ChatingRoom thisRoom = chatingRoomList.get(index);
+		
+		return thisRoom.getUsers();
 	}
 }
